@@ -1,4 +1,4 @@
-# LAMP stack built with Docker Compose
+# LAMP stack built with Docker Compose!
 
 ![Landing Page](https://preview.ibb.co/gOTa0y/LAMP_STACK.png)
 
