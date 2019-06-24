@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yml --provider=openshift
+    kompose.version: 1.18.0 (06a2e56)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: webserver
+  name: webserver
+spec:
+  ports:
+  - name: "480"
+    port: 480
+    targetPort: 80
+  - name: "4443"
+    port: 4443
+    targetPort: 443
+  selector:
+    io.kompose.service: webserver
+status:
+  loadBalancer: {}

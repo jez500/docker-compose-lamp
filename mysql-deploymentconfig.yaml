@@ -1,0 +1,63 @@
+apiVersion: v1
+kind: DeploymentConfig
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yml --provider=openshift
+    kompose.version: 1.18.0 (06a2e56)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: mysql
+  name: mysql
+spec:
+  replicas: 1
+  selector:
+    io.kompose.service: mysql
+  strategy:
+    resources: {}
+    type: Recreate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: mysql
+    spec:
+      containers:
+      - env:
+        - name: MYSQL_DATABASE
+          value: png
+        - name: MYSQL_PASSWORD
+          value: png
+        - name: MYSQL_ROOT_PASSWORD
+          value: tiger
+        - name: MYSQL_USER
+          value: png
+        image: ' '
+        name: png-mysql
+        ports:
+        - containerPort: 3306
+        resources: {}
+        volumeMounts:
+        - mountPath: /var/lib/mysql
+          name: mysql-claim0
+        - mountPath: /var/log/mysql
+          name: mysql-claim1
+      restartPolicy: Always
+      volumes:
+      - name: mysql-claim0
+        persistentVolumeClaim:
+          claimName: mysql-claim0
+      - name: mysql-claim1
+        persistentVolumeClaim:
+          claimName: mysql-claim1
+  test: false
+  triggers:
+  - type: ConfigChange
+  - imageChangeParams:
+      automatic: true
+      containerNames:
+      - png-mysql
+      from:
+        kind: ImageStreamTag
+        name: mysql:latest
+    type: ImageChange
+status: {}
